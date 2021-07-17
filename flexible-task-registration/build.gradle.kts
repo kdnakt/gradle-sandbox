@@ -6,3 +6,7 @@ repeat(4) { counter ->
 	}
 }
 
+tasks.named("task0") {
+	dependsOn("task2", "task3")
+}
+
