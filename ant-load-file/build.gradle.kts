@@ -12,3 +12,17 @@ tasks.register("loadfile") {
 		}
 	}
 }
+
+tasks.register("checksum") {
+	doLast {
+		fileList("./resources").forEach { file ->
+			ant.withGroovyBuilder {
+				"checksum"("file" to file, "property" to "cs_${file.name}")
+			}
+			println("$file.name checksum: ${ant.properties["cs_${file.name}"]}")
+		}
+	}
+}
+
+fun fileList(dir: String): List<File> =
+	file(dir).listFiles { file: File -> file.isFile }.sorted()
