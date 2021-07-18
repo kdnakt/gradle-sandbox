@@ -9,3 +9,7 @@ val copy by tasks.registering(Copy::class) {
 	into(buildDir)
 }
 
+tasks.register<Copy>("copy2") {
+	from(file("srcDir2"))
+	into(buildDir)
+}
