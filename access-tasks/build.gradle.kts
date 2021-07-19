@@ -18,4 +18,9 @@ tasks.register("test") {
 	dependsOn(tasks.withType<Copy>())
 }
 
+// access by path, not recommended practice
+println(tasks.getByPath("hello").path)
+println(tasks.getByPath(":hello").path)
+println(tasks.getByPath("project-a:hello").path)
+println(tasks.getByPath(":project-a:hello").path)
 
