@@ -8,3 +8,9 @@ tasks.addRule("Pattern: ping<ID>") {
 		}
 	}
 }
+
+tasks.register("groupPing") {
+	repeat(4) { counter ->
+		dependsOn("pingServer$counter")
+	}
+}
