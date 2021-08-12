@@ -31,3 +31,9 @@ val taskZ by tasks.registering {
 tasks.build {
 	dependsOn(taskZ)
 }
+
+base {
+	archivesName.set("gradle")
+	distsDirectory.set(layout.buildDirectory.dir("custom-dist"))
+	libsDirectory.set(layout.buildDirectory.dir("custom-libs"))
+}
