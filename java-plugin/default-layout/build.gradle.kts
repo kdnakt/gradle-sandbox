@@ -2,6 +2,13 @@ plugins {
 	java
 }
 
+java {
+	toolchain {
+		// エラー: 文字列リテラルが閉じられていません
+		languageVersion.set(JavaLanguageVersion.of(11))
+	}
+}
+
 tasks.forEach { println(it) }
 /**
 task ':assemble'
