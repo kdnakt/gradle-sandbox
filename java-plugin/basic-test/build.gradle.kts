@@ -11,7 +11,8 @@ dependencies {
 }
 
 tasks.test {
-	useJUnit()
+	// default is JUnit 4, no need to call explicitly
+	// useJUnit()
 
 	maxHeapSize = "1G"
 }
