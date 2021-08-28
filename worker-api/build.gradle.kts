@@ -1,3 +1,7 @@
+plugins {
+	base
+}
+
 interface ReverseParams: WorkParameters {
 	val fileToReverse: RegularFileProperty
 	val destDir: DirectoryProperty
@@ -34,9 +38,15 @@ abstract class ReverseFiles @Inject constructor(
 	}
 }
 
+val target = file("target")
+
 tasks.register<ReverseFiles>("rev") {
 	group = "custom"
 	description = "reverse files"
 	setSource(file("src"))
-	outputDir.set(file("target"))
+	outputDir.set(target)
+}
+
+tasks.clean {
+	delete(target)
 }
