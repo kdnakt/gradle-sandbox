@@ -11,11 +11,14 @@ abstract class ReverseFile @Inject constructor(
 	val fileSystemOperations: FileSystemOperations
 ): WorkAction<ReverseParams> {
 	override fun execute() {
+		println("started ${this} ${System.currentTimeMillis()}")
 		fileSystemOperations.copy {
 			from(parameters.fileToReverse)
 			into(parameters.destDir)
 			filter { line: String -> line.reversed() }
 		}
+		Thread.sleep(2000)
+		println("finished ${this} ${System.currentTimeMillis()}")
 	}
 }
 
@@ -27,7 +30,11 @@ abstract class ReverseFiles @Inject constructor(
 
 	@TaskAction
 	fun reverseFiles() {
-		val queue = exec.noIsolation()
+		val queue = exec.processIsolation() {
+			forkOptions {
+				maxHeapSize = "512m"
+			}
+		}
 
 		source.forEach { file ->
 			queue.submit(ReverseFile::class) {
@@ -35,6 +42,9 @@ abstract class ReverseFiles @Inject constructor(
 				destDir.set(outputDir)
 			}
 		}
+
+		queue.await()
+		logger.lifecycle("Created ${outputDir.get().asFile.listFiles().size} reversed files")
 	}
 }
 
